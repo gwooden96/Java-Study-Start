@@ -1,0 +1,70 @@
+# 람다식
+
+**람다식(Lambda Expressions)** : 익명 함수(anonymous function)을 생성하는 식, 자바 8부터 사용  
+
+(코드상) 매개변수가 있는 코드 블록 -> (런타임 시) 익명 구현 객체
+
+<img src="https://github.com/gwooden96/-/blob/main/Lambda%20(1).JPEG?raw=true" width="350" height="500">
+<img src="https://github.com/gwooden96/-/blob/main/Lambda%20(2).JPEG?raw=true" width="350" height="500">
+
+```java
+package 람다복습01;
+
+public class LambdaTest01 {
+
+	public static void main(String[] args) {
+		//Object obj(a, b) -> a > b ? a : b; // 람다식. 익명객체
+
+		/*
+		Ground gr = new Ground() {
+			public int max(int a, int b) { // 오버라이딩 - 접근제어자는 좁게 못바꾼다.
+				return a > b ? a : b;
+			}
+		};
+		*/
+		
+		//람다식(익명 객체)을 다루기 위한 참조변수의 타입은 함수형 인터페이스로 한다.
+		Ground gr = (a, b) -> a > b ? a : b; // 람다식. 익명객체
+
+		
+		int value = gr.max(3, 5); //함수형 인터페이스
+		System.out.println("value = " + value);
+	
+	}
+
+}
+
+@FunctionalInterface //함수형 인터페이스는 단 하나의 추상 메서드만 사용해야 됨
+interface Ground {
+	
+//	public abstract int max(int a, int b);
+	
+	int max(int a, int b); //접근제어자 따로 설정은 안해두면 디폴트값이 고정되어 있다.
+
+}
+```java
+
+```java
+package 람다복습01;
+
+import java.util.stream.Stream;
+
+public class LambdaStringArr01 {
+	
+	public static void main(String[] args) {
+		
+	
+	String[] strArr = { "안녕히", "bb", "c", "반가워요" };
+	Stream<String> strSt = Stream.of(strArr);
+	//특정 객체를 요소로 갖는 Stream을 생성하고 싶을 때 stream.of를 사용
+	
+	int intgerSum = strSt.mapToInt(String::length).sum();
+	// mapToiInt을 이용해 기본스트림을 Int타입 스트림으로 변환해준다.
+	System.out.println("sum = " + intgerSum);
+	//출력시 배열에 들어있는 문자에 개수가 총 계산되어 출력된다.
+	//'안', '녕', '히', 'b', 'b', 'c', '반', '가', '워', '요' 총 10개
+
+	}
+
+}
+```java

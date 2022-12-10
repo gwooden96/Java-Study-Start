@@ -1,0 +1,67 @@
+# 스트림
+
+**스트림(Stream)** :
+
++ 다양한 데이터 소스(컬렉션, 배열 등)를 표준화된 방법으로 다루기 위한 것
+    + 그 전까지는 List, Set, Map 등의 사용 방법들이 서로 달랐다.
++ 데이터 소스를 스트림으로 변환 후 여러 번의 중간연산과 마지막의 최종 연산을 통해 다를 수 있다.
+
++ 순서
+1. 스트림 만들기
+2. 중간연산(반복 적용 가능, 연산 결과가 스트림)
+3. 최종연산 (스트림의 요소를 소모) -> 결과 리턴
+
+<br>
+
+```java
+list.stream() //스트림 만들기
+	.distinct() //중간연산
+    .limit(5) //중간연산
+    .sorted() //중간연산
+    .forEach(System.out::println) //최종연산
+```
+
+## 스트림의 특징
+
+1. 데이터를 담고 있는 저장소 (컬렉션)이 아님
+2. 스트림은 기존 데이터 소스를 변경하지 않음(Read Only)
+3. 스트림은 lterator처럼 일회용! (필요하면 다시 스트림을 생성)
+4. 최종 연산 처리 전까지 중간연산을 수행하지 않는다.(lazy)
+5. 무제한일 수도 있다. (Short Circuit 메소드를 사용해서 제한할 수 있다.)
+6. 손쉽게 병렬 처리할 수 있다. (멀티 쓰레드 사용) (.parallel)
+7. 기본형 스트림으로 IntStream, LongStream, DoubleStream등 제공
+    + 오토박싱 등의 불필요한 과정이 생략됨.
+    + Stream<Integer> 대신에 IntStream을 사용하는게 더 효율적이다.
+    + 뿐만 아니라 숫자의 경우 더 유용한 메서드를 Stream<T>보다 더 많이 제공한다.(.sum(), .averge() 등)
+
+<hr>
+<br>
+
+## 스트림 구현해보기
+
+<br>
+
+```java
+package 람다복습01;
+
+import java.util.stream.Stream;
+
+public class LambdaStringArr01 {
+	
+	public static void main(String[] args) {
+		
+	
+	String[] strArr = { "안녕히", "bb", "c", "반가워요" };
+	Stream<String> strSt = Stream.of(strArr);
+	//특정 객체를 요소로 갖는 Stream을 생성하고 싶을 때 stream.of를 사용
+	
+	int intgerSum = strSt.mapToInt(String::length).sum();
+	// mapToiInt을 이용해 기본스트림을 Int타입 스트림으로 변환해준다.
+	System.out.println("sum = " + intgerSum);
+	//출력시 배열에 들어있는 문자에 개수가 총 계산되어 출력된다.
+	//'안', '녕', '히', 'b', 'b', 'c', '반', '가', '워', '요' 총 10개
+
+	}
+
+}
+```
